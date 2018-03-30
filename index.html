@@ -68,19 +68,19 @@ img {
 }
 .tet-title{
 	width: 100%;
-	height: 1.5rem;
-	line-height: 1.5rem;
+	height: 3rem;
+	line-height: 3rem;
 	display: flex;
     justify-content: center;
 }
 .tet-title img{
-	width: 1.3rem;
-	height: 1.3rem;
-	margin: 0.1rem;
+	width: 2rem;
+	height: 2rem;
+	margin-top: 0.5rem;
 }
 .tet{
-	font-size: 0.8rem;
-	line-height: 1.4rem;
+	font-size: 1.5rem;
+	line-height: 3rem;
 	color:#fff;
 
 }
@@ -130,6 +130,9 @@ img {
 					success: function(data){
 						console.log(data)
 						var len=data.data.length;
+						if(len<20){
+							$(".tet-title").hide();
+						}
 		                var imgarr="";
 						for(var i=0;i<len;i++){
                          imgarr=imgarr+"<img class='picclick' src='"  +data.data[i].url+"'>";

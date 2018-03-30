@@ -21,8 +21,7 @@
 	  position: relative;
 	  width: 100%;
 	  height: 100%;
-	  font-size: 1rem;
-	  background: #f5f6f7;
+	  background: #000;
 	}
 	.masonry {
   -webkit-column-count: 1;
@@ -68,31 +67,56 @@ img {
   width: 100%;
 }
 .tet-title{
-	  display: flex;
+	width: 100%;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	display: flex;
     justify-content: center;
 }
 .tet-title img{
-	width: 1.5rem;
-	height: 1.5rem;
+	width: 1.3rem;
+	height: 1.3rem;
+	margin: 0.1rem;
 }
 .tet{
 	font-size: 0.8rem;
 	line-height: 1.4rem;
-}
+	color:#fff;
 
+}
+.liulan{
+	position: fixed;
+	left:0;
+	right: 0;
+	top:0;
+	bottom: 0;
+	margin: auto;
+
+}
 
 	</style>
 </head>
 <body>
-
-<div class="masonry">
-
-</div>
 <p class="tet-title"><img src="image/loading.gif" alt=""><span class="tet">加载中....</span></p>
 
+<div class="masonry">
+</div>
+<img src="" alt="" class="liulan">
 	<script src="js/jQuery/jquery-1.8.3.min.js"></script>
 		<script>
+		 size();
+          window.onresize=function(){
+            size();
+          };
+          function size(){
+            var html=document.getElementsByTagName('html')[0];
+            html.style.fontSize=10*(window.innerWidth/375)+"px";
+            if(window.innerWidth=="375px"){
+              window.innerWidth="375px";
+            }
+          }
 			$(document).ready(function(){
+				$(".liulan").hide();
 			var page=1;
 			var datatrue=false;
 			imgload();
@@ -107,7 +131,7 @@ img {
 						var len=data.data.length;
 		                var imgarr="";
 						for(var i=0;i<len;i++){
-                         imgarr=imgarr+"<a href='"+data.data[i].url+"'><img src='"  +data.data[i].url+"'></a>";
+                         imgarr=imgarr+"<img class='picclick' src='"  +data.data[i].url+"'>";
 						}
 						$(".masonry").append(imgarr);
 						datatrue=true;
@@ -123,9 +147,24 @@ img {
 
 			});
 
+			
 
 
 			});
+      $(".masonry").on("click","img",function(){
+		var url=$(this).attr("src");
+			$(".liulan").show();
+			$(".liulan").attr("src",url);
+			$(".masonry").hide();
+			$(".tet-title").hide();
+			})
+      $(".liulan").on("click",function(){
+			$(".liulan").hide();
+			$(".masonry").show();
+			$(".tet-title").show();
+			})
+
+
 		</script>
 </body>
 </html>

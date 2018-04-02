@@ -85,13 +85,18 @@ img {
 
 }
 .liulan{
-	position: fixed;
+	width: 100%;l
+	height: 100%;
+	position: absolute;
 	left:0;
 	right: 0;
 	top:0;
 	bottom: 0;
 	margin: auto;
-
+	cursor: move;
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center;
 }
 
 	</style>
@@ -102,7 +107,7 @@ img {
 </div>
 <p class="tet-title"><img src="image/loading.gif" alt=""><span class="tet">加载中....</span></p>
 
-<img src="" alt="" class="liulan">
+<div class="liulan"></div>
 	<script src="js/jQuery/jquery-1.8.3.min.js"></script>
 		<script>
 		 size();
@@ -128,7 +133,7 @@ img {
 					data:"",
 					dataType:"json",
 					success: function(data){
-						console.log(data)
+			
 						var len=data.data.length;
 						if(len<20){
 							$(".tet-title").hide();
@@ -151,22 +156,57 @@ img {
 
 			});
 
-			
+		var nextpic , prepic ,strtime ,endtime;
+		
 
-
-			});
-      $(".masonry").on("click","img",function(){
-		var url=$(this).attr("src");
+		$(".masonry").on("click","img",function(){
+      
+		    var url=$(this).attr("src");
+		    nextpic=$(this).next().attr("src");
+		    prepic=$(this).prev().attr("src")
+		    console.log(nextpic,prepic)
 			$(".liulan").show();
-			$(".liulan").attr("src",url);
+			$(".liulan").attr("style","background-image:url("+url+");");
 			$(".masonry").hide();
 			$(".tet-title").hide();
 			})
-      $(".liulan").on("click",function(){
-			$(".liulan").hide();
+
+    $(".liulan").mousedown(function(e){
+    	strtime=new Date();
+    	var x=e.clientX;
+    	var y=e.clientY;
+    	$(document).mousemove(function(e){
+            var x_lien=e.clientX;
+    	    var y_lien=e.clientY;
+    	    if(x_lien-x>100){
+    	    	$(".liulan").attr("style","background-image:url("+prepic+");");
+    	    }if(x_lien-x<-100){
+                $(".liulan").attr("style","background-image:url("+nextpic+");");
+    	    }
+    	    $(".liulan").css("left",(x_lien-x)+"px");
+         console.log(x_lien-x)
+    	    
+    	})
+
+    })
+      $(document).mouseup(function(e){
+      	var x_end=e.clientX;
+    	var y_end=e.clientY;
+    	endtime=new Date();
+    	if(endtime-strtime<500){
+    		$(".liulan").hide();
 			$(".masonry").show();
 			$(".tet-title").show();
-			})
+    	}
+      $(document).off('mousemove');          //移除鼠标移动事件
+    });
+  
+
+	});
+
+
+      
+
 
 
 		</script>

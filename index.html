@@ -133,7 +133,7 @@ img {
 					data:"",
 					dataType:"json",
 					success: function(data){
-			
+		
 						var len=data.data.length;
 						if(len<20){
 							$(".tet-title").hide();
@@ -156,15 +156,15 @@ img {
 
 			});
 
-		var nextpic , prepic ,strtime ,endtime;
+		var nextpic , prepic ,strtime ,endtime,top;
 		
 
 		$(".masonry").on("click","img",function(){
       
+		    top=$(document).scrollTop()
 		    var url=$(this).attr("src");
 		    nextpic=$(this).next().attr("src");
 		    prepic=$(this).prev().attr("src")
-		    console.log(nextpic,prepic)
 			$(".liulan").show();
 			$(".liulan").attr("style","background-image:url("+url+");");
 			$(".masonry").hide();
@@ -173,8 +173,8 @@ img {
 
     $(".liulan").mousedown(function(e){
     	strtime=new Date();
-    	var x=e.clientX;
-    	var y=e.clientY;
+    	var x=e.clientX-$(".liulan").offset().left;
+    	var y=e.clientY-$(".liulan").offset().top;
     	$(document).mousemove(function(e){
             var x_lien=e.clientX;
     	    var y_lien=e.clientY;
@@ -184,7 +184,6 @@ img {
                 $(".liulan").attr("style","background-image:url("+nextpic+");");
     	    }
     	    $(".liulan").css("left",(x_lien-x)+"px");
-         console.log(x_lien-x)
     	    
     	})
 
@@ -192,8 +191,11 @@ img {
       $(document).mouseup(function(e){
       	var x_end=e.clientX;
     	var y_end=e.clientY;
+    	$(document).scrollTop(1000)
     	endtime=new Date();
-    	if(endtime-strtime<500){
+    	if(endtime-strtime<200){
+
+		  	// console.log(top)
     		$(".liulan").hide();
 			$(".masonry").show();
 			$(".tet-title").show();
@@ -201,6 +203,13 @@ img {
       $(document).off('mousemove');          //移除鼠标移动事件
     });
   
+
+
+
+
+  // $(document).scroll(function() {
+
+  // });
 
 	});
 
